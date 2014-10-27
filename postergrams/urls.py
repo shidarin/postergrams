@@ -8,3 +8,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 )
+
+admin.site.site_header = 'Postergrams administration'
+admin.site.site_title = 'Postergrams site admin'

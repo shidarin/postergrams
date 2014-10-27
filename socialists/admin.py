@@ -1,7 +1,6 @@
 from django.contrib import admin
 from socialists.models import Artist, Gallery, Event
 
-
 class ArtistAdmin(admin.ModelAdmin):
     fieldsets = [
         (
