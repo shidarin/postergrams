@@ -139,6 +139,11 @@ class Gallery(SocialMedia):
         max_length=128,
         help_text='Name of the gallery, website or group'
     )
+    city = models.CharField(
+        'City',
+        max_length=64,
+        help_text="City the gallery is in. If online group, put 'Online'"
+    )
     address = models.TextField(
         'Physical Address',
         max_length=512,
@@ -146,6 +151,14 @@ class Gallery(SocialMedia):
         blank=True,
         help_text='Actual real world physical address, if any'
     )
+
+    def __unicode__(self):
+        rep = u'{name}{city_space}{city}'.format(
+            name=self.name,
+            city_space=', ' if self.city else '',
+            city=self.city if self.city else ''
+        )
+        return rep
 
 
 class Event(models.Model):
@@ -188,4 +201,19 @@ class Event(models.Model):
         help_text='Select all artists currently known to be involved in the '
                   'event.'
     )
+
+    @property
+    def host_name(self):
+        return self.host.name
+
+    @property
+    def city(self):
+        return self.host.city
+
+    def __unicode__(self):
+        rep = u'{name} @ {host}'.format(
+            name=self.name,
+            host=self.host.name
+        )
+        return rep
 
