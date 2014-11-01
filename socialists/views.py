@@ -1,11 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.template import RequestContext, loader
+from socialists.models import Event
 
 # Create your views here.
 
 
 def index(request):
-    return HttpResponse("Hello world, you're at the socialists index")
+    latest_event_list = Event.objects.order_by('opening')[:5]
+    template = loader.get_template('socialists/index.html')
+    context = RequestContext(
+        request,
+        {
+            'latest_event_list': latest_event_list,
+        }
+    )
+    return HttpResponse(template.render(context))
 
 def artist(request, artist_name):
     return HttpResponse("You're looking at artist: {0}".format(artist_name))
