@@ -86,7 +86,7 @@ class EventAdmin(admin.ModelAdmin):
             ]}
         )
     ]
-    list_display = ('name', 'host_name', 'city', 'opening')
+    list_display = ('name', 'host_name', 'city', 'opening', 'is_current')
     list_filter = ('opening', )
     search_fields = ('name', )
 

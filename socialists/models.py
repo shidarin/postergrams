@@ -1,6 +1,5 @@
-import datetime
-
 from django.db import models
+from django.utils import timezone
 
 
 # =============================================================================
@@ -217,3 +216,8 @@ class Event(models.Model):
         )
         return rep
 
+    def is_current(self):
+        return self.opening < timezone.now() < self.closing
+
+    is_current.boolean = True
+    is_current.short_description = 'Current Event?'
