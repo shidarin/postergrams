@@ -202,12 +202,30 @@ class Event(models.Model):
     )
 
     @property
+    def closing_readable(self):
+        return '{date} at {time}'.format(
+            date=self.readable_date(self.closing),
+            time=self.readable_time(self.closing)
+        )
+
+    @property
     def host_name(self):
         return self.host.name
 
     @property
     def city(self):
         return self.host.city
+
+    @property
+    def opening_readable(self):
+        return '{date} at {time}'.format(
+            date=self.readable_date(self.opening),
+            time=self.readable_time(self.opening)
+        )
+
+    @property
+    def url_name(self):
+        return ''.join(c for c in self.name if c.isalnum())
 
     def __unicode__(self):
         rep = u'{name} @ {host}'.format(
@@ -221,3 +239,19 @@ class Event(models.Model):
 
     is_current.boolean = True
     is_current.short_description = 'Current Event?'
+
+    def readable_date(self, date_time):
+        day = str(date_time.day)
+        if day.startswith('0'):
+            day = day[1:]
+
+        return date_time.strftime('%A, %B {day}'.format(day=day))
+
+    def readable_time(self, date_time):
+        hour = date_time.hour
+        if hour > 12:
+            hour -= 12
+
+        hour = str(hour)
+
+        return date_time.strftime('{hour}:%M %p %Z'.format(hour=hour))
